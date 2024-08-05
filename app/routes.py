@@ -19,30 +19,39 @@ def index():
 #################
 
 # Create a new customer
-@app.route('/users', methods=["POST"])
+@app.route('/users' , methods=['POST'])
+@cache.cached(timeout=60)
+@limiter.limit("100 per hour")
 def create_user():
     if not request.is_json:
-        return {"error": "Request body must be application/json"}, 400 # Bad Request by Client
+        return {"error": "Request body must be application/json"}, 400
     try:
         data = request.json
         user_data = user_input_schema.load(data)
-        # Query the customer table to see if any customer have that username or email
-        query = db.select(User).where((User.username == user_data['username']) | (User.email == user_data['email']))
+        query = db.select(User).where((User.username == user_data ['username']) | (User.email == user_data['email']))
         check_users = db.session.scalars(query).all()
-        if check_users: # If there are customers in the check_customers list (empty list evaluates to False)
-            return {"error": "Customer with that username and/or email already exists"}, 400 # Bad Request by client
-        new_user = User(
-            first_name=user_data['first_name'],
-            last_name=user_data['last_name'],
-            email=user_data['email'],
-            username=user_data['username'],
-            password=generate_password_hash(user_data['password'])
+        if check_users:
+            return {"error": "User with that username and/or email already exist"}, 400 # Bad Request By Client
+        if "role_id" in user_data:
+            new_user = User(
+            first_name = user_data['first_name'],
+            last_name = user_data['last_name'],
+            username = user_data['username'],
+            email = user_data['email'],
+            password = generate_password_hash(user_data['password']),
+            role_id = user_data['role_id']
+            )
+        else:
+            new_user = User(
+                first_name = user_data['first_name'],
+                last_name = user_data['last_name'],
+                username = user_data['username'],
+                email = user_data['email'],
+                password = generate_password_hash(user_data['password'])
         )
-        # and add to the database
         db.session.add(new_user)
         db.session.commit()
-        # Serialize the new customer object and return with 201 status
-        return user_output_schema.jsonify(new_user), 201 # Created - Success
+        return user_output_schema.jsonify(new_user), 201 
     except ValidationError as err:
         return err.messages, 400
     except ValueError as err:

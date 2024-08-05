@@ -9,6 +9,7 @@ class UserSchema(ma.Schema):
     email = fields.String(required= True)
     username = fields.String(required= True)
     password = fields.String(required= True)
+    role_id = fields.Int(required=True)
 
 user_input_schema = UserSchema()
 user_output_schema = UserSchema(exclude=["password"])

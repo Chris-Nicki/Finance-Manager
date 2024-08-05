@@ -30,3 +30,8 @@ cache.init_app(app)
 app.register_blueprint(swaggerui_blueprint)
 
 from app.routes import *
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
