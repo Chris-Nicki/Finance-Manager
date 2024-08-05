@@ -12,7 +12,7 @@ from app.auth import token_auth
 
 @app.route('/')
 def index():
-    return 'Hello'
+    return redirect(url_for('swagger_ui.show'))
 
 #################
   #User Routes#
