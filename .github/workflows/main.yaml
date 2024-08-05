@@ -68,5 +68,5 @@ jobs:
     steps:
       - name: Deploy the App
         env:
-          deploy_url: ${{'https://api.render.com/deploy/srv-cq9ve2jv2p9s73cp1k00?key=dtB6tF40jV0'}}
+          deploy_url: ${{'https://api.render.com/deploy/srv-cqoh8qbv2p9s73aq43d0?key=ttgmmYPNHRI'}}
         run: curl "$deploy_url"
