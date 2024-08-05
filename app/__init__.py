@@ -10,7 +10,7 @@ from flask_limiter.util import get_remote_address
 
 # Create an instance of the flask application
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://savvy_ip68_user:UmwZ8oK3pmvhBcLdKbPihLAIWss8GYZZ@dpg-cqoghflds78s73c0ialg-a/savvy_ip68'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
 
