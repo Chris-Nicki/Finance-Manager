@@ -13,7 +13,7 @@ load_dotenv()
 
 # Create an instance of the flask application
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres.weuwdazxvdzugxbqijbo:[27839414cN 2*]@aws-0-us-west-1.pooler.supabase.com:6543/postgres' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
 
